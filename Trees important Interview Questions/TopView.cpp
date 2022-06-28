@@ -43,48 +43,39 @@ node* buildTree(node* root){
 
 
 
-
-
-void VerticalorderTraversal(node* root){
-    // Map stores {Horizontal,Level,Vector of nodes}
-    map<int,map<int,vector<int>>> nodestore;
-    queue<pair<int,pair<int, node*>>> q;
+void topView(node* root){
+    map<int,int> nodestore;
+    queue<pair<node*,int>> q;
     vector<int> ans;
 
     if(root==NULL){
-        return ;
+        return;
     }
 
-    q.push(make_pair(0,make_pair(0,root)));
+    q.push(make_pair(root,0));
     while(!q.empty()){
-        pair<int,pair<int,node*>> topnode = q.front();
+        pair<node*,int> topnode = q.front();
         q.pop();
+        node* frontnode = topnode.first;
+        int horizontal = topnode.second;
 
-        int horizontal = topnode.first;
-        int level = topnode.second.first;
-        node* frontnode = topnode.second.second; 
-
-
-        // map is storing the data in sorted order of Horizontal
-        nodestore[horizontal][level].push_back(frontnode->data);
+        if(nodestore.find(horizontal) == nodestore.end()){
+            nodestore[horizontal]=frontnode->data;
+        }
 
         if(frontnode->left){
-            q.push(make_pair(horizontal-1,make_pair(level+1,frontnode->left)));
-        }   
+            q.push(make_pair(frontnode->left,horizontal-1));
+        }
         if(frontnode->right){
-            q.push(make_pair(horizontal+1,make_pair(level+1,frontnode->right)));
-        }      
-    }
-
-    for(auto i: nodestore){
-        for(auto j: i.second){
-            for(auto k: j.second){
-                ans.push_back(k);
-            }
+            q.push(make_pair(frontnode->right,horizontal+1));
         }
     }
 
-    for(int i:ans){
+    for(auto i: nodestore){
+        ans.push_back(i.second);
+    }
+
+    for(auto i:ans){
         cout<<i<<",";
     }
 }
@@ -94,12 +85,9 @@ void VerticalorderTraversal(node* root){
 
 
 
-
-
-
 int main(){
     node* root = NULL;
     root = buildTree(root);
-    VerticalorderTraversal(root);
+    topView(root);
     return 0;
 }

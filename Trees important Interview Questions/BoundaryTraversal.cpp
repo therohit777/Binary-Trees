@@ -37,6 +37,7 @@ node* buildTree(node* root){
 
 }
 
+// Left Part of the tree excluding leafnodes.
 void leftpart(node* root,vector<int> &ans){
     if(root==NULL || (root->left==NULL && root->right==NULL)){
         return ;
@@ -54,7 +55,7 @@ void leftpart(node* root,vector<int> &ans){
 
 
 
-
+// Leafnodes wala part of tree 
 void leafpart(node* root,vector<int> &ans){
     if(root==NULL){
         return;
@@ -72,7 +73,7 @@ void leafpart(node* root,vector<int> &ans){
 
 
 
-
+//Reverse right part of tree excluding leafnodes.
 void reverserightpart(node* root,vector<int> &ans){
     if(root==NULL || (root->left==NULL && root->right==NULL)){
         return;
@@ -105,12 +106,6 @@ void BoundaryTraversal(node* root){
         cout<<i<<",";
     }
 }
-
-
-
-
-
-
 
 
 int main(){
